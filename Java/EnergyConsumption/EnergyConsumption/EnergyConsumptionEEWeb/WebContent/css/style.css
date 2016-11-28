@@ -1,0 +1,91 @@
+/* Header */
+body#header {
+	background-image: url("#{resource['images/back.jpg']}");
+	vertical-align: middle;
+}
+
+body {
+	background-image: url("../images/back.jpg");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+}
+
+.header {
+	float: left;
+	width: 50px;
+	height: 50px;
+}
+
+h1#header {
+	text-shadow: 3px 2px 1px #c0c0c0;
+	margin-top: 0;
+	text-align: center;
+	margin-top: 10px";
+	margin-top: 0;
+}
+
+hr {
+	text-align: center;
+}
+
+.ui-fieldset {
+	width: 50px;
+	height: 50px;
+	padding: 0;
+}
+
+/* Footer */
+h5#footer {
+	text-align: left;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+/* login */
+.loginForm {
+	margin-bottom: 0;
+}
+
+div.loginForm {
+	float: left;
+	width: 250px;
+}
+div.message {
+	float: left;
+}
+
+/* Welcome */
+#greating {
+	text-align: center;
+	font-weight: bold;
+}
+
+/* paidBills */
+.tableName, h2 {
+	color: white;
+	text-shadow: 3px 2px 1px #000000;
+	font-weight: bold;
+	text-align: center;
+	margin: 0px;
+}
+
+.submitForm {
+	color: white;
+	font-weight: bold;
+}
+
+.dataTable {
+	width: 97%;
+	margin: 0 auto;
+}
+
+/* unpaidBills */
+
+.tableNameUnpaid > h2 {
+	color: red;
+	font-weight: bold;
+	text-align: center;
+	margin: 0px;
+}

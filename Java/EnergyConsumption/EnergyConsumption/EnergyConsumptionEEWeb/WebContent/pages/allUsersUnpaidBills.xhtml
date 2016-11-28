@@ -1,0 +1,100 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:body>
+	<ui:composition template="/templates/layouts/layout.xhtml">
+		<ui:define name="title">#{msgs['all.unpaid.bills']}</ui:define>
+		
+		<ui:define name="content">
+
+			<h:panelGroup id="mainPageContent" layout="block">
+				<h:form styleClass="loginForm">
+
+					<!-- button -->
+					<h:panelGroup layout="block">
+						<p:commandButton ajax="false" action="#{loginBean.toLoginPage}"
+							value="#{msgs['button.login']}" />
+					</h:panelGroup>
+				</h:form>
+
+				<h:form>
+					<div class="tableNameUnpaid">
+						<h2>#{msgs['all.unpaid.bills']}</h2>
+					</div>
+					<h:panelGroup layout="block" styleClass="dataTable">
+						<p:dataTable var="allUsersUnpaid"
+							value="#{listAllUsersUnpaidBillBean.allUsersUnpaidBills}"
+							rows="5" widgetVar="allUsersUnpaidTable" paginator="true"
+							emptyMessage="#{msgs['no.data']}"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							paginatorPosition="bottom" rowsPerPageTemplate="5,10,15"
+							id="listallUsersUnpaidTable">
+
+							<f:facet name="header">
+								<p:outputPanel>
+									<h:outputText value="Search all fields " />
+									<p:inputText id="globalFilter"
+										onkeyup="PF('allUsersUnpaidTable').filter()"
+										style="width:150px" placeholder="#{msgs['enter.keyword']}" />
+								</p:outputPanel>
+							</f:facet>
+
+							<!-- customrID -->
+							<p:column headerText="#{msgs['unpaid.bills.customerID']}"
+								filterBy="#{allUsersUnpaid.customerId}"
+								filterMatchMode="startsWith">
+								<h:outputText value="#{allUsersUnpaid.customerId}" />
+							</p:column>
+
+							<!-- first name -->
+							<p:column headerText="#{msgs['label.firstName']}"
+								filterBy="#{allUsersUnpaid.firstName}"
+								filterMatchMode="startsWith">
+								<h:outputText value=" #{allUsersUnpaid.firstName}" />
+							</p:column>
+
+							<!-- last name -->
+							<p:column headerText="#{msgs['label.lastName']}"
+								filterBy="#{allUsersUnpaid.lastName}"
+								filterMatchMode="startsWith">
+								<h:outputText value=" #{allUsersUnpaid.lastName}" />
+							</p:column>
+
+							<!-- counter -->
+							<p:column headerText="#{msgs['unpaid.bills']}" filterBy="#{allUsersUnpaid.unpaidBillCounter}"
+								filterMatchMode="startsWith">
+								<h:outputText value=" #{allUsersUnpaid.unpaidBillCounter}" />
+							</p:column>
+
+						</p:dataTable>
+
+						<h4 style="margin: 10px;">Export to file</h4>
+						<!--export to excel -->
+						<h:commandLink id="excel">
+							<h:graphicImage value="/images/excel.png" />
+							<p:dataExporter type="xls" target="listallUsersUnpaidTable"
+								fileName="UnPaid Bills" />
+						</h:commandLink>
+
+						<!--export to pdf -->
+						<h:commandLink id="pdf">
+							<p:graphicImage value="/images/pdf.png" />
+							<p:dataExporter type="pdf" target="listallUsersUnpaidTable"
+								fileName="UnPaid Bills" />
+						</h:commandLink>
+
+					</h:panelGroup>
+				</h:form>
+			</h:panelGroup>
+		</ui:define>
+		
+	</ui:composition>
+</h:body>
+</html>
