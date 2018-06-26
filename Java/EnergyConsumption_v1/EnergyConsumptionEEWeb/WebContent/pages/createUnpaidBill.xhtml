@@ -1,0 +1,63 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:body>
+	<ui:composition template="/templates/layouts/loggedLayout.xhtml">
+		<ui:define name="title">#{msgs['create.unpaid.bill']}</ui:define>
+
+		<ui:define name="content">
+			<div>
+				<h2>#{msgs['create.unpaid.bill']}</h2>
+			</div>
+			<h:form>
+
+				<h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5"
+					styleClass="submitForm">
+
+					<!-- month -->
+					<p:outputLabel for="month" value="#{msgs['paid.bills.month']}:" />
+					<p:selectOneMenu id="month"
+						value="#{createUnPaidBill.unPaidBillModel.month}" required="true">
+						<f:selectItem itemValue="" />
+						<f:selectItems value="#{createUnPaidBill.months}" />
+					</p:selectOneMenu>
+					<p:message for="month"></p:message>
+
+					<!-- year -->
+					<p:outputLabel for="year" value="#{msgs['paid.bills.year']}:" />
+					<p:inputText id="year" name="year"
+						value="#{createUnPaidBill.unPaidBillModel.year}" required="true">
+						<f:validateLength maximum="4000" />
+					</p:inputText>
+					<p:message for="year"></p:message>
+
+					<!-- sum without tax -->
+					<p:outputLabel for="sumWithoutTax"
+						value="#{msgs['bill.sum.without.tax']}:" />
+					<p:inputText id="sumWithoutTax" name="sumWithoutTax"
+						value="#{createUnPaidBill.unPaidBillModel.sumWithoutTax}"
+						required="true">
+						<f:validateLength maximum="4000" />
+					</p:inputText>
+					<p:message for="sumWithoutTax"></p:message>
+
+				</h:panelGrid>
+
+				<!-- button -->
+				<h:panelGroup layout="block">
+					<p:commandButton ajax="false"
+						action="#{createUnPaidBill.submitBill}" value="#{msgs['submit']}" />
+				</h:panelGroup>
+			</h:form>
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>

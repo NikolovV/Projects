@@ -1,0 +1,123 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:body>
+	<ui:composition template="/templates/layouts/loggedLayout.xhtml">
+		<ui:define name="title">#{msgs['paid.bills']}</ui:define>
+
+		<ui:define name="content">
+
+			<h:form>
+				<div class="tableName">
+					<h2>#{msgs['paid.bills']}</h2>
+				</div>
+				<h:panelGroup layout="block" styleClass="dataTable">
+					<p:dataTable var="paidBills" value="#{listPaidBills.allBills}"
+						rows="5" widgetVar="paidBillsTable" paginator="true"
+						emptyMessage="#{msgs['no.data']}"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						paginatorPosition="bottom" rowsPerPageTemplate="5,10,15"
+						id="listPaidBillsTable" >
+
+						<f:facet name="header">
+							<p:outputPanel>
+								<h:outputText value="#{msgs['search.all.fields']}" />
+								<p:inputText id="globalFilter"
+									onkeyup="PF('paidBillsTable').filter()" style="width:150px"
+									placeholder="#{msgs['enter.keyword']}" />
+							</p:outputPanel>
+						</f:facet>
+
+						<!-- customrID -->
+						<p:column headerText="#{msgs['paid.bills.customerID']}">
+							<h:outputText value="#{paidBills.user.customerId}" />
+						</p:column>
+
+						<!-- month -->
+						<p:column headerText="#{msgs['paid.bills.month']}"
+							filterBy="#{paidBills.month}" filterMatchMode="startsWith">
+							<h:outputText value=" #{paidBills.month}" />
+						</p:column>
+
+						<!-- years -->
+						<p:column headerText="#{msgs['paid.bills.year']}"
+							filterBy="#{paidBills.year}" filterMatchMode="startsWith">
+							<h:outputText value=" #{paidBills.year}" />
+						</p:column>
+
+						<!-- sum without tax -->
+						<p:column headerText="#{msgs['paid.bills.sum.without.tax']}"
+							filterBy="#{paidBills.sumWithoutTax}"
+							filterMatchMode="startsWith">
+							<h:outputText value=" #{paidBills.sumWithoutTax}" />
+						</p:column>
+
+						<!-- sum with tax -->
+						<p:column headerText="#{msgs['paid.bills.sum.with.tax']}"
+							filterBy="#{paidBills.sumWithoutTax}"
+							filterMatchMode="startsWith">
+							<h:outputText value=" #{paidBills.sumWithTax}"
+								converter="javax.faces.Integer" />
+						</p:column>
+
+						<!-- edit column -->
+						<p:column exportable="false" styleClass="colType"
+							style="width:30px; text-align: center;">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['button.edit']}" />
+							</f:facet>
+							<p:commandLink ajax="false" process="@this" immediate="true"
+								action="#{listPaidBills.editPaidBill}" id="editButton">
+								<f:param name="id" value="#{paidBills.id}" />
+								<h:graphicImage value="/images/edit-icon.png"
+									title="#{msgs['button.edit']}" alt="#{msgs['button.edit']}"
+									width="20" height="20" />
+							</p:commandLink>
+						</p:column>
+
+						<!--delete column -->
+						<p:column exportable="false" styleClass="colType"
+							style="width:50px; text-align: center;">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['delete']}" />
+							</f:facet>
+							<p:commandLink ajax="false" process="@this" immediate="true"
+								action="#{deletePaidBillBean.deleteAction}" id="deleteButton">
+								<f:param name="id" value="#{paidBills.id}" />
+								<h:graphicImage value="/images/delete.png"
+									title="#{msgs['delete']}" alt="#{msgs['delete']}" width="20"
+									height="20" />
+							</p:commandLink>
+						</p:column>
+
+					</p:dataTable>
+
+					<h4 style="margin: 10px;">Export to file</h4>
+					<!--export to excel -->
+					<h:commandLink id="excel">
+						<h:graphicImage value="/images/excel.png" />
+						<p:dataExporter type="xls" target="listPaidBillsTable"
+							fileName="Paid Bills" />
+					</h:commandLink>
+
+					<!--export to pdf -->
+					<h:commandLink id="pdf">
+						<p:graphicImage value="/images/pdf.png" />
+						<p:dataExporter type="pdf" target="listPaidBillsTable"
+							fileName="Paid Bills" />
+					</h:commandLink>
+
+				</h:panelGroup>
+			</h:form>
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>

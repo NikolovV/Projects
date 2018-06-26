@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link href="#{application.contextPath}/css/style.css" rel="stylesheet"
+		type="text/css" />
+</h:head>
+<body id="navigation">
+	<div>
+		<h:form style="text-align: center;">
+		
+			<p:growl showDetail="true" />
+			
+			<p:commandButton id="dynaButton" value="Menu" type="button" icon="fa fa-cube"/>
+			<p:tieredMenu overlay="true" trigger="dynaButton" my="left top" at="left top">
+				<p:submenu label="#{msgs['create.action']}" icon="fa fa-plus">
+					<p:menuitem value="#{msgs['create.user']}"
+						action="#{menuBean.toCreateUser}" icon="fa fa-plus"/>
+					<p:menuitem value="#{msgs['create.paid.bill']}"
+						action="#{menuBean.toCreatePaidBills}"  icon="fa fa-plus"/>
+					<p:menuitem value="#{msgs['create.unpaid.bill']}"
+						action="#{menuBean.toCreateUnPaidBills}" icon="fa fa-plus"/>
+				</p:submenu>
+				<p:submenu label="#{msgs['list.action']}" icon="fa fa-fw fa-list">
+					<p:menuitem value="#{msgs['paid.bills']}"
+						action="#{menuBean.toPaidBills}"  icon="fa fa-dollar"/>
+					<p:menuitem value="#{msgs['unpaid.bills']}"
+						action="#{menuBean.toUnpaidBills}"  icon="fa fa-ban"/>
+				</p:submenu>
+				<p:menuitem value="#{msgs['logout']}" action="#{loginBean.logout}"  icon="fa fa-power-off"/>
+			</p:tieredMenu>
+		</h:form>
+
+		<!-- Old menu -->
+		<!-- <h:form style="text-align: center;">
+			<p:growl showDetail="true" />
+			<p:menuButton value="Menu">
+				<p:menuitem value="#{msgs['create.user']}"
+					action="#{menuBean.toCreateUser}" />
+				<p:menuitem value="#{msgs['create.paid.bill']}"
+					action="#{menuBean.toCreatePaidBills}" />
+				<p:menuitem value="#{msgs['create.unpaid.bill']}"
+					action="#{menuBean.toCreateUnPaidBills}" />
+				<p:menuitem value="#{msgs['paid.bills']}"
+					action="#{menuBean.toPaidBills}" />
+				<p:menuitem value="#{msgs['unpaid.bills']}"
+					action="#{menuBean.toUnpaidBills}" />
+				<p:menuitem value="#{msgs['logout']}" action="#{loginBean.logout}" />
+			</p:menuButton>
+		</h:form> -->
+	</div>
+</body>
+</html>

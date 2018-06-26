@@ -1,0 +1,125 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:body>
+	<ui:composition template="/templates/layouts/loggedLayout.xhtml">
+		<ui:define name="title">#{msgs['unpaid.bills']}</ui:define>
+
+		<ui:define name="content">
+			<h:form>
+				<div class="tableNameUnpaid">
+					<h2>#{msgs['unpaid.bills']}</h2>
+				</div>
+				<h:panelGroup layout="block" styleClass="dataTable">
+					<p:dataTable var="unpaidBills" value="#{listUnPaidBills.allBills}"
+						rows="5" widgetVar="unpaidBillsTable" paginator="true"
+						emptyMessage="#{msgs['no.data']}"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						paginatorPosition="bottom" rowsPerPageTemplate="5,10,15"
+						id="listUnPaidBillsTable">
+
+						<f:facet name="header">
+							<p:outputPanel>
+								<h:outputText value="#{msgs['search.all.fields']}" />
+								<p:inputText id="globalFilter"
+									onkeyup="PF('unpaidBillsTable').filter()" style="width:150px"
+									placeholder="#{msgs['enter.keyword']}" />
+							</p:outputPanel>
+						</f:facet>
+
+						<!-- customrID -->
+						<p:column headerText="#{msgs['unpaid.bills.customerID']}">
+							<h:outputText value="#{unpaidBills.user.customerId}" />
+						</p:column>
+
+						<!-- month -->
+						<p:column headerText="#{msgs['unpaid.bills.month']}"
+							filterBy="#{unpaidBills.month}" filterMatchMode="startsWith">
+							<h:outputText value=" #{unpaidBills.month}" />
+						</p:column>
+
+						<!-- years -->
+						<p:column headerText="#{msgs['unpaid.bills.year']}"
+							filterBy="#{unpaidBills.year}" filterMatchMode="startsWith">
+							<h:outputText value=" #{unpaidBills.year}" />
+						</p:column>
+
+						<!-- sum without tax -->
+						<p:column headerText="#{msgs['unpaid.bills.sum.without.tax']}"
+							filterBy="#{unpaidBills.sumWithoutTax}"
+							filterMatchMode="startsWith">
+							<h:outputText value=" #{unpaidBills.sumWithoutTax}">
+								<f:convertNumber maxFractionDigits="2" locale="bg" />
+							</h:outputText>
+						</p:column>
+
+						<!-- sum with tax -->
+						<p:column headerText="#{msgs['unpaid.bills.sum.with.tax']}"
+							filterBy="#{unpaidBills.sumWithoutTax}"
+							filterMatchMode="startsWith">
+							<h:outputText value=" #{unpaidBills.sumWithTax}">
+								<f:convertNumber maxFractionDigits="2" locale="bg" />
+							</h:outputText>
+						</p:column>
+
+						<!-- edit column -->
+						<p:column exportable="false" styleClass="colType"
+							style="width:30px; text-align: center;">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['button.edit']}" />
+							</f:facet>
+							<p:commandLink ajax="false" process="@this" immediate="true"
+								action="#{listUnPaidBills.editUnpaidBill}" id="editButton">
+								<f:param name="id" value="#{unpaidBills.id}" />
+								<h:graphicImage value="/images/edit-icon.png"
+									title="#{msgs['button.edit']}" alt="#{msgs['button.edit']}"
+									width="20" height="20" />
+							</p:commandLink>
+						</p:column>
+
+						<!--Pay -->
+						<p:column exportable="false" styleClass="colType"
+							style="width:50px; text-align: center;">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['pay']}" />
+							</f:facet>
+							<p:commandLink ajax="false" process="@this" immediate="true"
+								action="#{deleteUnPaidBillBean.deleteAction}" id="deleteButton">
+								<f:param name="id" value="#{unpaidBills.id}" />
+								<h:graphicImage value="/images/icon_dollar.png"
+									title="#{msgs['pay']}" alt="#{msgs['pay']}" width="20"
+									height="20" />
+							</p:commandLink>
+						</p:column>
+
+					</p:dataTable>
+
+					<h4 style="margin: 10px;">Export to file</h4>
+					<!--export to excel -->
+					<h:commandLink id="excel">
+						<h:graphicImage value="/images/excel.png" />
+						<p:dataExporter type="xls" target="listUnPaidBillsTable"
+							fileName="UnPaid Bills" />
+					</h:commandLink>
+
+					<!--export to pdf -->
+					<h:commandLink id="pdf">
+						<p:graphicImage value="/images/pdf.png" />
+						<p:dataExporter type="pdf" target="listUnPaidBillsTable"
+							fileName="UnPaid Bills" />
+					</h:commandLink>
+
+				</h:panelGroup>
+			</h:form>
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>
